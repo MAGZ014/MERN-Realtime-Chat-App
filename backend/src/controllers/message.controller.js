@@ -37,7 +37,7 @@ export const getMessage = async (req, res) => {
 export const sendMessage = async (req, res) => {
   try {
     const { text, image } = req.body;
-    const { id: userToChatId } = req.params;
+    const { id: receiverId } = req.params;
     const senderId = req.user._id;
 
     let imageUrl;
@@ -57,7 +57,7 @@ export const sendMessage = async (req, res) => {
     await newMessage.save();
 
     //Todo: realtime funtion
-    res.status(201).json(message);
+    res.status(201).json(newMessage);
   } catch (e) {
     console.log("Error in sendMessage controller", e.message);
     res.status(500).json({ message: "Internal Server Error" });
