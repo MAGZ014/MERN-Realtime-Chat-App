@@ -9,15 +9,30 @@ import MessagesInput from "./MessagesInput";
 import MessagesSkeleton from "./skeletons/MessagesSkeleton";
 
 function ChatContainer() {
-  const { messages, getMessages, isMessagesLoading, selectedUser } =
-    useChatStore();
+  const {
+    messages,
+    getMessages,
+    isMessagesLoading,
+    selectedUser,
+    subcirbeToMessages,
+    unsubcirbeToMessages,
+  } = useChatStore();
   const { authUser } = useAuthStore();
 
   const messageEndRef = useRef(null);
 
   useEffect(() => {
+    subcirbeToMessages();
     getMessages(selectedUser._id);
-  }, [selectedUser._id.getMessages]);
+
+    return () => unsubcirbeToMessages();
+  }, [selectedUser._id, getMessages, subcirbeToMessages, unsubcirbeToMessages]);
+
+  useEffect(() => {
+    if (messageEndRef.current && messages) {
+      messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   if (isMessagesLoading) {
     return (

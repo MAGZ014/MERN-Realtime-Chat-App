@@ -34,7 +34,7 @@ function MessagesInput() {
 
     try {
       await sendMessage({
-        texr: text.trim(),
+        text: text.trim(),
         image: imagePreview,
       });
       // clear input
